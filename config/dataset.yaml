@@ -1,0 +1,28 @@
+# Multi-Weather Pothole Detection Dataset Configuration
+# This configuration file defines the dataset structure for YOLO training
+
+# Dataset paths (update these paths based on your dataset location)
+path: ../datasets/pothole_dataset  # Root dataset directory
+train: images/train  # Training images directory (relative to path)
+val: images/val  # Validation images directory (relative to path)
+test: images/test  # Test images directory (relative to path)
+
+# Number of classes
+nc: 1
+
+# Class names
+names:
+  0: pothole
+
+# Weather conditions covered in the dataset:
+# - Clear/Sunny
+# - Rainy/Wet roads
+# - Foggy
+# - Snowy
+# - Night/Low light
+# - Overcast/Cloudy
+
+# Dataset info
+# The multi-weather pothole detection dataset contains images captured
+# under various weather conditions to ensure robust detection performance
+# in real-world scenarios.
