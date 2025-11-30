@@ -14,7 +14,7 @@ from typing import Optional
 import cv2
 import numpy as np
 
-from detector import PotholeDetector
+from .detector import PotholeDetector
 
 
 def process_image(

@@ -8,15 +8,21 @@ This module provides utilities for:
 - Organizing dataset structure
 """
 
+import argparse
 import os
 import random
 import shutil
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import List, Tuple, Optional, Dict
 
 import cv2
 import numpy as np
 import yaml
+
+# Weather augmentation constants
+RAIN_DROPS_BASE = 500  # Base number of rain drops at intensity 1.0
+SNOW_PARTICLES_BASE = 1000  # Base number of snow particles at intensity 1.0
 
 
 def create_dataset_structure(base_path: str) -> dict:
@@ -148,8 +154,6 @@ def convert_voc_to_yolo(
     Returns:
         List of YOLO format annotation strings
     """
-    import xml.etree.ElementTree as ET
-    
     tree = ET.parse(xml_file)
     root = tree.getroot()
     
@@ -245,7 +249,7 @@ def apply_weather_augmentation(
     if weather_type == "rain":
         # Simulate rain with streaks
         rain_layer = np.zeros_like(augmented)
-        for _ in range(int(500 * intensity)):
+        for _ in range(int(RAIN_DROPS_BASE * intensity)):
             x = random.randint(0, augmented.shape[1] - 1)
             y = random.randint(0, augmented.shape[0] - 20)
             length = random.randint(5, 20)
@@ -270,7 +274,7 @@ def apply_weather_augmentation(
     elif weather_type == "snow":
         # Simulate snow with white spots
         snow_layer = np.zeros_like(augmented)
-        for _ in range(int(1000 * intensity)):
+        for _ in range(int(SNOW_PARTICLES_BASE * intensity)):
             x = random.randint(0, augmented.shape[1] - 1)
             y = random.randint(0, augmented.shape[0] - 1)
             radius = random.randint(1, 3)
@@ -404,8 +408,6 @@ def create_dataset_yaml(
 
 
 if __name__ == "__main__":
-    import argparse
-    
     parser = argparse.ArgumentParser(
         description="Data preprocessing utilities for pothole detection"
     )
